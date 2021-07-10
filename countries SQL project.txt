@@ -1,0 +1,47 @@
+Countries:
+
+1.
+Select country.name, countrylanguage.language, countrylanguage.Percentage
+From country JOIN countrylanguage
+WHERE countrylanguage.Language = 'Slovene'
+Order by Percentage DESC;
+
+2. 
+SELECT CountryCode, count(Name) as NumberOfCities
+FROM city
+Group By CountryCode
+Order By NumberOfCities DESC;
+
+3. 
+SELECT Name, Population
+from city
+where CountryCode = 'Mex' AND Population > 500000
+ORDER BY Population DESC;
+
+4. 
+SELECT CountryCode, Language
+from countrylanguage
+Where Percentage > 89
+Order by CountryCode DESC
+
+5.
+select Name
+from country
+where SurfaceArea <= 501 and Population > 100000
+
+6.
+select Name
+from country
+where GovernmentForm = 'Constitutional Monarchy' AND LifeExpectancy > 75 AND Capital > 200;
+
+7. 
+select country.name, city.name, city.district, city.population
+from country JOIN city
+on country.Code = city.CountryCode
+where country.name = 'Argentina' AND city.District = 'Buenos Aires' AND city.Population > 500000
+
+8.
+select Region, count(Name) as NumofCountries
+from country
+group by Region
+Order by count(Name) DESC

@@ -1,0 +1,41 @@
+Sakila
+
+1.
+select customer.first_name, customer.last_name, customer.email, address.address, address.address2
+from customer join city join address
+where city.city_id = 312;
+
+2.
+select name, title, release_year, rating, special_features
+from category join film
+where category.name = 'Comedy'
+
+3. 
+select actor_id, first_name, last_name, title, description, release_year
+from actor join film
+where actor_id = 5
+
+4.
+select store.store_id, city.city_id, first_name, last_name, email, address
+from customer join store join city join address
+where store.store_id = 1 AND city.city_id IN(1, 42, 312, 459)
+
+5.
+select actor_id, title, description, release_year, rating, special_features
+from film join actor
+where rating LIKE 'G' AND special_features LIKE '%behind the scenes%' AND actor_id = 15;
+
+6.
+select film_id, title, actor_id, first_name, last_name
+from film join actor
+where film_id = 369;
+
+7.
+select name as category, title, description, release_year, rating, special_features, rental_rate
+from film join category
+where rental_rate = 2.99 AND name = 'Drama'
+
+8.
+select title, description, rating, special_features, release_year, name, first_name, last_name
+from film join category join actor
+where first_name = 'Sandra' AND last_name = 'Kilmer' AND name = 'action'
