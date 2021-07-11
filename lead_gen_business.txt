@@ -1,0 +1,79 @@
+1.
+select sum(amount) as MarchTotalRevenue, sum(client_id) as NumOfClients
+from billing
+where charged_datetime >= '2012-03-01' AND charged_datetime <= '2012-03-31';
+
+2.
+select client_id, sum(amount) as MarchTotalRevenue
+from billing
+where client_id = 2;
+
+3.
+select client_id, site_id, domain_name as SitesOwned
+from sites
+where client_id = 10;
+
+4.
+select client_id, site_id, domain_name as SitesOwned, created_datetime
+from sites
+where client_id = 1
+order by created_datetime;
+
+5.
+select domain_name, sites.site_id, count(leads_id) as NumofLeadsInDateRange, registered_datetime as datetimeofLead
+from leads left join sites
+on leads.site_id = sites.site_id
+where registered_datetime >= '2011-01-01' AND registered_datetime <= '2011-02-15'
+group by sites.site_id
+
+6.
+select clients.first_name, clients.last_name, sites.domain_name, count(leads_id) as NumofLeadsGenerated
+from leads left join sites
+on leads.site_id = sites.site_id
+left join clients
+on clients.client_id = sites.site_id
+where leads.registered_datetime >='2011/01/01' AND leads.registered_datetime < '2011/12/31'
+group by clients.client_id;
+
+7.
+select concat(clients.first_name," ",clients.last_name) as ClientName, count(leads_id) as NumofLeadsGenerated
+, monthname(leads.registered_datetime) as MonthGenerated
+from leads left join sites
+on leads.site_id = sites.site_id
+left join clients
+on sites.client_id = clients.client_id
+where registered_datetime >= '2011-01-01' AND registered_datetime <= '2011-06-30'
+group by clients.client_id, MonthGenerated
+order by leads.registered_datetime ASC
+
+8.
+select concat(clients.first_name," ", clients.last_name) as ClientName,  sites.domain_name, count(leads_id) as NumOfLeadsPerSite
+from leads left join sites
+on sites.site_id = leads.site_id
+left join clients
+on clients.client_id = sites.client_id
+where registered_datetime >= '2011-01-01' AND registered_datetime <= '2011-12-31'
+group by sites.site_id
+order by clients.client_id;
+
+select concat(clients.first_name," ", clients.last_name) as ClientName,  sites.domain_name, count(leads_id) as NumOfLeadsPerSite
+from leads left join sites
+on sites.site_id = leads.site_id
+left join clients
+on clients.client_id = sites.client_id
+group by sites.site_id
+order by clients.client_id
+
+9.
+select concat(clients.first_name," ", clients.last_name) as Name, sum(amount) as TotalBilled, monthname(charged_datetime)
+from clients left join billing
+on clients.client_id = billing.client_id
+group by monthname(charged_datetime), clients.client_id
+order by clients.client_id, charged_datetime
+
+10.
+select concat(clients.first_name," ", clients.last_name) as Name, group_concat(Distinct domain_name ORDER BY domain_name ASC Separator " | ") as SitesOwned
+from clients left join sites
+on clients.client_id = sites.client_id
+group by clients.client_id
+order by clients.first_name ASC
